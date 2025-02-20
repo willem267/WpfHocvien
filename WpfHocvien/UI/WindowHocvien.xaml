@@ -1,0 +1,72 @@
+﻿<Window x:Class="WpfHocvien.UI.WindowHocvien"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfHocvien.UI"
+        xmlns:localMyModels="clr-namespace:WpfHocvien.MyModels"
+        mc:Ignorable="d"
+        
+        Title="WindowHocvien" Height="450" Width="800" Loaded="Window_Loaded">
+    <Window.CommandBindings>
+        <CommandBinding x:Name="them" Command="local:WindowHocvien.lenhThem" CanExecute="them_CanExecute" Executed="them_Executed"/>
+        <CommandBinding x:Name="xoa" Command="local:WindowHocvien.lenhXoa" CanExecute="xoa_CanExecute" Executed="xoa_Executed"/>
+        <CommandBinding x:Name="sua" Command="local:WindowHocvien.lenhSua" CanExecute="sua_CanExecute" Executed="sua_Executed"/>
+
+    </Window.CommandBindings>
+    <Window.Resources>
+        <x:Array x:Key="rsPhai" Type="localMyModels:CPhai">
+            <localMyModels:CPhai key="True" value="Nam" />
+            <localMyModels:CPhai key="False" value="Nữ"/>
+        </x:Array>
+    </Window.Resources>
+    
+    
+
+    <StackPanel>
+        <Label Content="Quản lý Học Viên" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"/>
+        <Grid x:Name="gridHocvien" DataContext="{StaticResource rsHocvien}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition/>
+                
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Mã Học Viên" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="0" Grid.Row="1" Text="Họ tên" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="0" Grid.Row="2" Text="Ngày sinh" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="2" Grid.Row="0" Text="Phái" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="2" Grid.Row="1" Text="Mã lớp" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="2" Grid.Row="2" Text="Tên lớp" HorizontalAlignment="Center"/>
+            <TextBox x:Name="txtMshv" Grid.Column="1" Grid.Row="0" Text="{Binding Mshv}"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Tenhv}"/>
+            <DatePicker Grid.Column="1" Grid.Row="2" SelectedDate="{Binding Ngaysinh}"/>
+            <ComboBox  Grid.Column="3" Grid.Row="0" ItemsSource="{StaticResource rsPhai}" DisplayMemberPath="value" SelectedValuePath="key" SelectedValue="{Binding Phai}"/>
+            <ComboBox x:Name="cmbMalop" Grid.Column="3" Grid.Row="1" DisplayMemberPath="Malop" SelectedValuePath="Malop" SelectedValue="{Binding Malop}"/>
+            <TextBox Grid.Column="3" Grid.Row="2" IsReadOnly="True" Text="{Binding ElementName=cmbMalop, Path=SelectedItem.Tenlop}" />
+            <Button  Grid.Column="5" Grid.Row="0" Content="Thêm" Command="local:WindowHocvien.lenhThem" />
+            <Button Grid.Column="5" Grid.Row="1" Content="Xóa"  Command="local:WindowHocvien.lenhXoa"/>
+            <Button Grid.Column="5" Grid.Row="2" Content="Sửa"  Command="local:WindowHocvien.lenhSua"/>
+        </Grid>
+        <Label Content="Danh sách Học Viên" HorizontalAlignment="Left"  FontSize="14"/>
+        <DataGrid x:Name="dgHocvien" AutoGenerateColumns="False" SelectionChanged="dgHocvien_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Mã Học Viên" Binding="{Binding Mshv}"/>
+                <DataGridTextColumn Header="Họ tên" Binding="{Binding Tenhv}"/>
+                <DataGridTextColumn Header="Ngày sinh" Binding="{Binding NgaysinhView}"/>
+                <DataGridTextColumn Header="Phái" Binding="{Binding PhaiView}"/>
+                <DataGridTextColumn Header="Mã lớp" Binding="{Binding Malop}"/>
+                <DataGridTextColumn Header="Tên lớp" Binding="{Binding Tenlop}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
+</Window>
