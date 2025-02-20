@@ -116,6 +116,19 @@ namespace WpfHocvien.UI
 
         private void sua_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
+            CHocvien hv = gridHocvien.DataContext as CHocvien;
+            Lylich x = CHocvien.chuyendoi(hv);
+            qlhvContext db = new qlhvContext();
+            if (x == null || string.IsNullOrEmpty(x.Mshv) || string.IsNullOrEmpty(x.Tenhv) || string.IsNullOrEmpty(x.Malop) || x.Phai == null || x.Ngaysinh == null)
+            {
+                e.CanExecute = false;
+                return;
+            }
+            if (db.Lyliches.Find(x.Mshv) == null)
+            {
+                e.CanExecute = false;
+                return;
+            }
             e.CanExecute = true;
         }
 
